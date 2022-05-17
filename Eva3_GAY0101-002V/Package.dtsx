@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="5/9/2022 7:38:20 PM"
@@ -11,9 +11,206 @@
   DTS:LocaleID="13322"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionGUID="{183D974A-8504-41B2-848F-89C14BB43D60}">
+  DTS:VersionBuild="21"
+  DTS:VersionGUID="{7DB20E74-9BD9-472E-B787-5F36D9C57EAE}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Conexión_Reporte1]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{619CE222-9E84-4581-B8D3-BECDFA694EBE}"
+      DTS:ObjectName="Conexión_Reporte1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Informes_diarios\Reporte_1.xls;Extended Properties=&quot;Excel 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Informes_diarios]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{8F8F8F60-6ECA-4420-AF01-B5C1DA049F15}"
+      DTS:ObjectName="Informes_diarios">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:FileUsageType="3"
+          DTS:ConnectionString="C:\Informes_diarios" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Reporte_1.xls]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{EE4E9F61-FB9A-4E33-9C30-95C183443362}"
+      DTS:ObjectName="Reporte_1.xls">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="C:\PedroArrate_ClaudioHidalgo\Reporte_1.xls" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
   <DTS:Variables />
-  <DTS:Executables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Genera Ambiente Reporte_1"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Contenedor de secuencias"
+      DTS:DTSID="{B65315F6-D6A5-414A-BBD9-54A7F72085C7}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Genera Ambiente Reporte_1">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Genera Ambiente Reporte_1\Crea Hojas de Reporte_1"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Tarea Ejecutar SQL"
+          DTS:DTSID="{BF821F3D-0AA0-456F-8451-D2775F70A554}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Crea Hojas de Reporte_1"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{619CE222-9E84-4581-B8D3-BECDFA694EBE}"
+              SQLTask:SqlStatementSource="CREATE TABLE `Ventas` (&#xA;    `Owner` LongText,&#xA;    `Max_Ventas` Decimal(18,0),&#xA;    `Min_Ventas` Decimal(18,0),&#xA;    `Prom_Ventas` Decimal(18,0)&#xA;)&#xA;GO&#xA;&#xA;CREATE TABLE `Venta_Owner` (&#xA;    `Owner` LongText,&#xA;    `Mes` Decimal(18,0),&#xA;    `Total_Venta` Decimal(18,0)&#xA;)&#xA;GO&#xA;&#xA;CREATE TABLE `Venta_Procedencia` (&#xA;    `Owner` LongText,&#xA;    `Procedencia` Decimal(18,0),&#xA;    `Total_Articulos` Decimal(18,0)&#xA;)&#xA;GO&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Genera Ambiente Reporte_1\Genera Carpeta Informes_diarios"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:Description="Tarea Sistema de archivos"
+          DTS:DTSID="{EA7E029C-B001-4A83-99D1-7F6AF3467CB2}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Genera Carpeta Informes_diarios"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="CreateDirectory"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="{8F8F8F60-6ECA-4420-AF01-B5C1DA049F15}" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Genera Ambiente Reporte_1\Genera Excel Reporte_1"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:Description="Reporte_1 Excel"
+          DTS:DTSID="{6FDBCD52-D349-42EF-AA07-FE713AD6BBEB}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Genera Excel Reporte_1"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="{EE4E9F61-FB9A-4E33-9C30-95C183443362}"
+              TaskDestinationPath="{8F8F8F60-6ECA-4420-AF01-B5C1DA049F15}" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Genera Ambiente Reporte_1.PrecedenceConstraints[Restricción]"
+          DTS:CreationName=""
+          DTS:DTSID="{69BE7EA3-D2D6-4063-AE7C-EAA2FC8778B9}"
+          DTS:From="Package\Genera Ambiente Reporte_1\Genera Carpeta Informes_diarios"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Restricción"
+          DTS:To="Package\Genera Ambiente Reporte_1\Genera Excel Reporte_1" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Genera Ambiente Reporte_1.PrecedenceConstraints[Restricción 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{F747BC97-7F83-4730-90C3-17452C73D1D1}"
+          DTS:From="Package\Genera Ambiente Reporte_1\Genera Excel Reporte_1"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Restricción 1"
+          DTS:To="Package\Genera Ambiente Reporte_1\Crea Hojas de Reporte_1" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="235,42"
+          Id="Package\Genera Ambiente Reporte_1\Genera Carpeta Informes_diarios"
+          TopLeft="15,16" />
+        <NodeLayout
+          Size="192,42"
+          Id="Package\Genera Ambiente Reporte_1\Genera Excel Reporte_1"
+          TopLeft="29,86" />
+        <NodeLayout
+          Size="197,42"
+          Id="Package\Genera Ambiente Reporte_1\Crea Hojas de Reporte_1"
+          TopLeft="25,157" />
+        <EdgeLayout
+          Id="Package\Genera Ambiente Reporte_1.PrecedenceConstraints[Restricción]"
+          TopLeft="128.75,58">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28"
+              Start="0,0"
+              End="0,20.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Genera Ambiente Reporte_1.PrecedenceConstraints[Restricción 1]"
+          TopLeft="124.25,128">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29"
+              Start="0,0"
+              End="0,21.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="325,256"
+          Size="325,299"
+          Id="Package\Genera Ambiente Reporte_1"
+          TopLeft="29,31" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>
